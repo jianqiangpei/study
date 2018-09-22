@@ -1,0 +1,7 @@
+study:
+  config:
+    registry:
+      host: @spring.profile.registry.host@
+      user: admin
+      password: admin
+      port: 8761

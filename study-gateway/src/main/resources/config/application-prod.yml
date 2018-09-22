@@ -1,0 +1,104 @@
+server:
+  port: 8084
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${study.config.registry.user}:${study.config.registry.password}@${study.config.registry.host}:${study.config.registry.port}/eureka/
+
+spring:
+  cloud:
+    loadbalancer:
+      retry:
+        #开始ribbon重试机制
+        enabled: true
+
+
+
+ribbon:
+  #配合eureka使用，默认是打开的
+  eureka:
+    enabled: true
+  #缓存ribbon配置，默认是关闭的
+  #当服务启动后，ribbon不会加载当前服务所请求的服务，而是当第一次请求该服务时，才会被加载，这会导致第一次请求会有点慢
+  #开启后，会在启动过程中就将clients中所配置的全部服务加载
+  eager-load:
+    enabled: true
+    clients: study-user
+
+#将要请求的服务的负载方式
+#以下配置的意思是，请求study-user使用的负载策略是随机celue
+#当访问study-user出现故障时（处理超时、连接超时），会针对于当前实例再次发起申请，如果仍然不行，会切换实例在发起1次请求，如果仍然不行，还会再切换一个实例再发起一起请求，如果还是不行，就会返回错误
+study-user:
+  ribbon:
+    #请求study-user服务的负载机制
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+    #请求处理的超时时间
+    ReadTimeout: 3000
+    #请求连接的超时时间
+    ConnectTimeout: 3000
+    #对所有的处理都开始重试机制
+    OkToRetryOnAllOperations: ture
+    #切换实例的重试次数
+    MaxAutoRetriesNextServer: 1
+    #对当前实例的重试次数
+    MaxAutoRetries: 0
+
+
+##断路器的配置
+hystrix:
+  threadpool:
+    default:
+      ##设置线程数量，当隔离策略为THREAD的时候，控制线程的数量，一般不建议更改
+      coreSize: 10
+  command:
+    default:
+      execution:
+        isolation:
+          ##断路器隔离策略：
+          ##thread ： 通过线程数量来限制并发请求数，可以提供额外的保护，但有一定的延迟。一般用于网络调用
+          ##semaphore： 通过semaphore count来限制并发请求数，适用于无网络的高并发请求
+          strategy: THREAD
+          thread:
+            ##命令执行超时时间，默认是1000ms，此时间应该根据ribbon的时间去设置，应该略大于ribbon.ReadTimeout X（ribbon.MaxAutoRetriesNextServer + ribbon.MaxAutoRetries）
+            timeoutInMilliseconds: 7000
+            ##发生超时是是否中断线程，当访问超时后，会中断当前线程，需要注意的是，这里的中断不是直接stop，而是使用interrupt标志性，可以通过Thread.interrupted()来判断线程是否中断，进而实现自己的业务，默认true
+            interruptOnTimeout: true
+        timeout:
+          ##是否启用超时，默认是true
+          enabled: true
+#        semaphore:
+#          ##最大并发请求数，如果超过此线程最大数量，，如果则直接进入fallback，当隔离策略为semaphore时，此参数才生效
+#          maxConcurrentRequests: 20
+
+      fallback:
+        isolation:
+          semaphore:
+            ##如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用。默认10
+            ##当并发达到该数量时，会抛出异常 method fallback execution rejected
+            maxConcurrentRequests: 10
+        ##当执行失败或者请求被拒绝，是否会尝试调用fallback回。当设置为true的时候，会调用回调的方法，如果回调方法不存在，会报错，如果为false，则不会执行回调方法，抛出异常：getOrderId timed-out and fallback disabled
+        enabled: true
+
+      ##熔断器
+      circuitBreaker:
+        ##熔断器开关，默认为true，开启
+        enabled: true
+        ##在rolling window的时间内访问的接收的最小的请求数，如果在该数值内，无论访问的失败率有多高，都不会打开熔断器，默认是20个
+        ##优先级小于coreSize，如果并发大于coreSize，依然会直接走fallback
+        requestVolumeThreshold: 2
+        ##触发短路的时间值，当触发短路后，在这个时间段内，不会接收任何的request，直接走fallback。默认5000ms
+        sleepWindowInMilliseconds: 5000
+        ##错误比率阀值，当错误率达到比值后，触发熔断。默认50（50%）
+        errorThresholdPercentage: 50
+        ##强制打开熔断器，默认为false，如果设置为true的话，将拒绝所有的request
+        ##直接进入fallback
+        forceOpen: false
+        ##强制关闭熔断器，默认为false，如果设置为true的话，无论发生什么都会接收request，直到服务器宕机
+        ##优先级小于coreSize，如果并发大于coreSize，依然会直接走fallback
+        forceClosed: true
+
+
+feign:
+  hystrix:
+    ##开启feign对hystrix的支持
+    enabled: true

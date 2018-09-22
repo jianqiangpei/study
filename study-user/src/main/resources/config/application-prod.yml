@@ -1,0 +1,10 @@
+server:
+  port: 8083
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${study.config.registry.user}:${study.config.registry.password}@${study.config.registry.host}:${study.config.registry.port}/eureka/
+
+#study-user:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule

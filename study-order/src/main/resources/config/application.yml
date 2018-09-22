@@ -1,0 +1,62 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: study-order
+  profiles:
+    active: @spring.profile.active@
+
+security:
+  basic:
+    #开启用户校验
+    enabled: true
+  user:
+    name: admin
+    password: admin
+    role: ADMIN,USER
+
+management:
+  security:
+    enabled: true
+    roles: ADMIN
+
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}
+    ##将本机的ip注册到eureka上
+    prefer-ip-address: true
+    ##心跳时间，默认是30s
+    ##eureka client发送给eureka server端的频率，如果在leaseExpirationDurationInSeconds后，server端没有收到client的心跳，则摘除该instance
+    lease-renewal-interval-in-seconds: 5
+    ##发呆时间，默认是90s
+    ##表示eureka server在收到上一次eureka client的心跳后，等待下一次心跳的超时时间，如果超过这个时间没有收到eureka server的心跳，则摘除该instance
+    lease-expiration-duration-in-seconds: 10
+    #eureka server 的状态信息
+    status-page-url-path: /info
+    #eureka server 的健康状态信息
+    health-check-url-path: /health
+
+
+  client:
+    #是否启用eureka,缺省是true
+    enabled: true
+    healthcheck:
+      enabled: true
+    #是否从eureka server上获取注册信息，默认是false，因为当前server就是自己，没有必要
+    fetch-registry: true
+    #是否将自己注册到eureka上，默认是true，因为当前应用就是eureka服务，所以没有必要注册，但是当是集群的时候，需要为true，因为需要在别的eureka client需要有该server的信息
+    register-with-eureka: true
+    #从eureka服务器注册表中获取注册信息的时间间隔（s）, 默认是30s
+    instance-info-replication-interval-seconds: 10
+    #复制实例变化信息到eureka服务器所需要的时间间隔(心跳)，默认是30s
+    registry-fetch-interval-seconds: 10
+    server:
+      #是否开启自我保护模式
+      #Eureka Server节点在短时间内丢失过多客户端时（可能发生了网络分区故障），那么这个节点就会进入自我保护模式。
+      #一旦进入该模式，Eureka Server就会保护服务注册表中的信息，不再删除服务注册表中的数据（也就是不会注销任何微服务）。
+      #当网络故障恢复后，该Eureka Server节点会自动退出自我保护模式。
+      enable-self-preservation: false
+
+
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="study-api" />
+        <module name="study-domain" />
+        <module name="study-gateway" />
+        <module name="study-order" />
+        <module name="study-registry" />
+        <module name="study-user" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="study" target="1.8" />
+      <module name="study-api" target="1.8" />
+      <module name="study-domain" target="1.8" />
+      <module name="study-gateway" target="1.8" />
+      <module name="study-order" target="1.8" />
+      <module name="study-registry" target="1.8" />
+      <module name="study-user" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
