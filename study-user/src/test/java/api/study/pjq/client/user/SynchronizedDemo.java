@@ -4,7 +4,7 @@ package api.study.pjq.client.user;
  * 任何对象都可以作为锁，那么锁存在哪里呢？
  *  锁存在对象头中。
  */
-public class SynchromizedDemo {
+public class SynchronizedDemo {
 
     private static int value;
 
@@ -33,6 +33,4 @@ public class SynchromizedDemo {
             return value;
         }
     }
-
-
 }
