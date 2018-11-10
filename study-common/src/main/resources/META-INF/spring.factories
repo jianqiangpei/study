@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  api.study.pjq.common.util.cache.impl.RedisServiceImpl,\
+  api.study.pjq.common.config.cache.RestTemplateConfiguration
