@@ -16,6 +16,8 @@
         <module>study-domain</module>
         <module>study-gateway</module>
         <module>study-api</module>
+        <module>study-common</module>
+        <module>study-core</module>
     </modules>
 
     <parent>

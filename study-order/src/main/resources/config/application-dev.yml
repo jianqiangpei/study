@@ -5,6 +5,15 @@ eureka:
     service-url:
       defaultZone: http://${study.config.registry.user}:${study.config.registry.password}@${study.config.registry.host}:${study.config.registry.port}/eureka/
 
-study-order:
-  ribbon:
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+spring:
+  redis:
+    cluster:
+      nodes: 192.168.1.110:6379,192.168.1.111:6379,192.168.1.112:6379,192.168.1.113:6379,192.168.1.114:6379,192.168.1.115:6379
+      ##最大重试次数
+      max-redirects: 5
+    pool:
+      min-idle: 50
+      max-idle: 100
+      max-active: 1000
+      maxWait: 30000
+    password: study

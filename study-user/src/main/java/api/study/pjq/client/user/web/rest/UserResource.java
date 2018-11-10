@@ -20,7 +20,7 @@ public class UserResource {
 
         System.out.println("我是1");
         try {
-            TimeUnit.SECONDS.sleep(6L);
+            TimeUnit.SECONDS.sleep(10L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

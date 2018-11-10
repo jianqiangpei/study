@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="study-api" />
+        <module name="study-common" />
+        <module name="study-core" />
         <module name="study-domain" />
         <module name="study-gateway" />
         <module name="study-order" />
@@ -14,5 +16,8 @@
         <module name="study-user" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="study-core" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

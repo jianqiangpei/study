@@ -3,6 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/study-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/study-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/study-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/study-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/study-domain" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/study-gateway" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/study-order" charset="UTF-8" />

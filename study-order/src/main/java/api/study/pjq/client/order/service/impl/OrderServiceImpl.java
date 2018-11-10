@@ -2,14 +2,13 @@ package api.study.pjq.client.order.service.impl;
 
 import api.study.pjq.client.order.service.IOrderService;
 import api.study.pjq.client.user.IUserClient;
+import api.study.pjq.common.util.cache.RedisService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 订单实现类
@@ -21,6 +20,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Resource
     private IUserClient userClient;
+
+    @Resource
+    private RedisService redisService;
 
 //    @Autowired
 //    private RestTemplate restTemplate;
@@ -43,6 +45,8 @@ public class OrderServiceImpl implements IOrderService {
     public String getOrderId(String orderId) {
 
 
+        redisService.putString(null , "fuck you , 草泥马的" , 60000L);
+
         logger.info("=========================="+ ++i+"start=====================================");
         logger.info("request time " + sdf.format(new Date()));
 
@@ -64,7 +68,7 @@ public class OrderServiceImpl implements IOrderService {
 
 //        throw new NullPointerException("test");
 
-        return userClient.getUser();
+        return "";
     }
 
 
